@@ -15,6 +15,7 @@ use Hyperf\Di\Annotation\Inject;
 use Hyperf\HttpServer\Contract\RequestInterface;
 use Hyperf\HttpServer\Contract\ResponseInterface;
 use Psr\Container\ContainerInterface;
+use App\Utils\ResponseService;
 
 abstract class AbstractController
 {
@@ -35,4 +36,12 @@ abstract class AbstractController
      * @var ResponseInterface
      */
     protected $response;
+
+    public function __call($name, $arguments)
+    {
+        if (method_exists(ResponseService::class, $name)) {
+            return make(ResponseService::class)->{$name}(...$arguments);
+        }
+    }
+
 }
