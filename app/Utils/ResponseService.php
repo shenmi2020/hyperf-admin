@@ -103,7 +103,7 @@ class ResponseService
      *
      * @return ResponseInterface|\Psr\Http\Message\ResponseInterface
      */
-    public function fail(string $error_msg = 'fail', $data = null, int $business_code = 999999)
+    public function fail(string $error_msg = 'fail', int $business_code = 999999, $data = null)
     {
         $this->business_code = $business_code;
         $this->business_msg = $error_msg;
@@ -143,8 +143,8 @@ class ResponseService
         return [
             'code'      => $this->business_code,
             'data'      => $data,
-            'message'   => $this->business_msg,
-            'timestamp' => time()
+            'msg'   => $this->business_msg,
+            // 'timestamp' => time()
         ];
     }
 }
