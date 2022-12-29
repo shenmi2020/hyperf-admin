@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * 生成随机字符串
+ */
 function randStr($length = 6)
 {
     $str = array('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 
@@ -16,4 +19,13 @@ function randStr($length = 6)
     }
 
     return $random_strs;
+}
+
+/**
+ * 生成token
+ */
+function genToken()
+{
+    $str = md5(uniqid(mt_rand().mt_rand(), true));
+    return $str;
 }

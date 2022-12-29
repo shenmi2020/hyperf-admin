@@ -11,6 +11,9 @@ use Hyperf\HttpServer\Annotation\RequestMapping;
 use App\Model\User;
 use Hyperf\Validation\Contract\ValidatorFactoryInterface;
 use Hyperf\Di\Annotation\Inject;
+use Hyperf\HttpServer\Annotation\Middlewares;
+use Hyperf\HttpServer\Annotation\Middleware;
+use App\Middleware\Auth\UserTokenMiddleware;
 
 /**
  * @Controller()
@@ -66,9 +69,32 @@ class UserController extends AbstractController
         if (empty($data)) {
             return $this->fail('用户不存在', 40004);
         }
+        if (empty($data['token'])) {
+            $token = genToken();
+            $data->token = $token;
+            $data->save();
+        }
+        $result = [
+            'token' => $data->token
+        ];
         
-        
+        return $this->success($result);
+    }
+
+    /**
+     * @RequestMapping(path="info", methods="post")
+     * @Middlewares({
+     *     @Middleware(UserTokenMiddleware::class)
+     * })
+     */
+    public function info()
+    {
+        $data = [
+            $this->request->getAttribute('user')
+        ];
         return $this->success($data);
     }
+
+
 
 }
