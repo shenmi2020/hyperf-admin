@@ -6,13 +6,14 @@ namespace App\Model;
 
 use Hyperf\DbConnection\Model\Model;
 use Hyperf\Database\Model\SoftDeletes;
+use Hyperf\DbConnection\Model\Relations\Pivot;
 
 /**
  * @property int $id 
  * @property string $name 
  * @property string $create_time 
  */
-class User extends Model
+class UserWork extends Model
 {
     use SoftDeletes;
 
@@ -21,25 +22,14 @@ class User extends Model
      *
      * @var string
      */
-    protected $table = 'user';
+    protected $table = 'user_work';
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable = ['username'];
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
-    protected $casts = ['id' => 'integer'];
+    protected $fillable = [];
+ 
 
-    public function works()
-    {
-        return $this->belongsToMany(Work::class)->withPivot('deleted_at');
-    }
-
-   
 
 }

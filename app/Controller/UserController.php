@@ -20,6 +20,7 @@ use App\Middleware\Auth\UserTokenMiddleware;
  */
 class UserController extends AbstractController
 {
+    public $user;
 
     /**
      * @Inject()
@@ -38,6 +39,33 @@ class UserController extends AbstractController
 
         $data = User::query()->offset(($pageIndex - 1) * $pageSize)->limit($pageSize)->orderBy('id', 'desc')->get();
         // $param = $this->request->all();
+
+        return $this->success($data);
+    }
+
+    /**
+     * @RequestMapping(path="work", methods="get")
+     */
+    public function work(RequestInterface $request)
+    {
+        
+        // for ($j=0; $j < 10; $j++) {
+        //     $result  = [];
+        //     for ($i=0; $i < 10000; $i++) { 
+        //         # code...
+        //         // $user = new User();
+        //         // $user->username = '萧峰'.$i;
+        //         // $user->save();
+        //         $result[] = [
+        //             'username' => md5(mt_rand().mt_rand()),
+        //             'created_at' => date('Y-m-d H:i:s'),
+        //             'updated_at' => date('Y-m-d H:i:s')
+        //         ];
+        //     }
+        //     $user = User::insert($result);
+        // }
+        $data = User::where('updated_at', '<>', NULL)->orderBy('created_at')->first();
+        // $data = User::where('id', 402056)->first();
 
         return $this->success($data);
     }
