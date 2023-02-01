@@ -87,7 +87,7 @@ class ResponseService
      *
      * @return ResponseInterface|\Psr\Http\Message\ResponseInterface
      */
-    public function success($data, int $business_code = 100000)
+    public function success($data = null, int $business_code = 100000)
     {
         $this->business_code = $business_code;
 

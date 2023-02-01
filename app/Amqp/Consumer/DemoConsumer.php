@@ -13,7 +13,7 @@ use PhpAmqpLib\Message\AMQPMessage;
  * @Consumer(exchange="hyperf", routingKey="hyperf", queue="hyperf", name="DemoConsumer", nums=5)
  */
 #[Consumer(exchange: 'hyperf', routingKey: 'hyperf', queue: 'hyperf', name: "DemoConsumer", nums: 1, enable: false)]
-class DemoConsumer11 extends ConsumerMessage
+class DemoConsumer extends ConsumerMessage
 {
     public function consumeMessage($data, AMQPMessage $message): string
     {
