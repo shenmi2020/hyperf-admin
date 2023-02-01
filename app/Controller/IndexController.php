@@ -16,6 +16,9 @@ use Hyperf\HttpServer\Contract\RequestInterface;
 use Hyperf\Di\Annotation\Inject;
 use Hyperf\HttpServer\Annotation\Controller;
 use Hyperf\HttpServer\Contract\ResponseInterface;
+use Hyperf\Utils\Coroutine;
+use Hyperf\Utils\Parallel;
+use Hyperf\Utils\Exception\ParallelExecutionException;
 
 /**
  * @Controller()
@@ -26,9 +29,26 @@ class IndexController extends AbstractController
     {
         $user = $this->request->input('user', 'Hyperf111');
         $method = $this->request->getMethod();
-        $result = [$user, $method];
+        $id = \Hyperf\Utils\Coroutine::id();
+        $result = [$id, $user, $method];
        
+        $parallel = new Parallel();
+        $parallel->add(function () {
+            sleep(1);
+            return Coroutine::id();
+        });
+        $parallel->add(function () {
+            sleep(1);
+            return Coroutine::id();
+        });
 
+        // try{
+        //     // $results 结果为 [1, 2]
+        //     $result = $parallel->wait(); 
+        // } catch(ParallelExecutionException $e){
+        //     // $e->getResults() 获取协程中的返回值。
+        //     // $e->getThrowables() 获取协程中出现的异常。
+        // }
         return $this->success($result);
 
         // return [

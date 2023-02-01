@@ -14,6 +14,9 @@ use Hyperf\Di\Annotation\Inject;
 use Hyperf\HttpServer\Annotation\Middlewares;
 use Hyperf\HttpServer\Annotation\Middleware;
 use App\Middleware\Auth\UserTokenMiddleware;
+use Hyperf\Amqp\Producer;
+use App\Amqp\Producer\DemoProducer;
+use Hyperf\Utils\ApplicationContext;
 
 /**
  * @Controller()
@@ -32,13 +35,22 @@ class UserController extends AbstractController
      * @RequestMapping(path="index", methods="get")
      * 
      */
-    public function index(RequestInterface $request, ResponseInterface $response)
+    public function index(RequestInterface $request, Producer $producer)
     {
         $pageIndex = $request->input('pageIndex', 1);
         $pageSize  = $request->input('pageSize', 10);
 
         $data = User::query()->offset(($pageIndex - 1) * $pageSize)->limit($pageSize)->orderBy('id', 'desc')->get();
         // $param = $this->request->all();
+        
+        // $producer = ApplicationContext::getContainer()->get(Producer::class);
+        // for ($i=1; $i <= 1000000; $i++) { 
+        //     # code...
+        //     $message = new DemoProducer($i);
+        //     $result = $producer->produce($message);
+        //     // var_dump($result);
+        // }
+        
 
         return $this->success($data);
     }
