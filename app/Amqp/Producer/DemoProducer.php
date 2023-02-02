@@ -1,20 +1,20 @@
 <?php
 
-declare(strict_types=1);
+// declare(strict_types=1);
 
-namespace App\Amqp\Producer;
+// namespace App\Amqp\Producer;
 
-use Hyperf\Amqp\Annotation\Producer;
-use Hyperf\Amqp\Message\ProducerMessage;
+// use Hyperf\Amqp\Annotation\Producer;
+// use Hyperf\Amqp\Message\ProducerMessage;
 
-/**
- * @Producer(exchange="hyperf", routingKey="hyperf")
- */
-#[Producer(exchange: 'hyperf', routingKey: 'hyperf')]
-class DemoProducer extends ProducerMessage
-{
-    public function __construct($data)
-    {
-        $this->payload = $data;
-    }
-}
+// /**
+//  * @Producer(exchange="hyperf", routingKey="hyperf")
+//  */
+// #[Producer(exchange: 'hyperf', routingKey: 'hyperf')]
+// class DemoProducer extends ProducerMessage
+// {
+//     public function __construct($data)
+//     {
+//         $this->payload = $data;
+//     }
+// }

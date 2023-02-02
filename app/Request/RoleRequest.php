@@ -9,9 +9,10 @@ use Hyperf\Validation\Request\FormRequest;
 class RoleRequest extends FormRequest
 {
     protected $scenes = [
+        'access' => ['id', 'menu_id'],
         'add'  => ['unit_id', 'name'],
         'edit' => ['unit_id', 'name', 'id'],
-        'delete' => ['id']
+        'delete' => ['id'],
     ];
 
     /**
@@ -31,6 +32,7 @@ class RoleRequest extends FormRequest
             'unit_id' => 'required',
             'name' => 'required',
             'id' => 'required',
+            'menu_id' => 'required|array'
         ];
     }
 }

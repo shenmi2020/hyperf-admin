@@ -6,6 +6,7 @@ namespace App\Controller;
 
 use App\Model\Role;
 use App\Request\RoleRequest;
+use Hyperf\DbConnection\Db;
 use Hyperf\HttpServer\Contract\RequestInterface;
 use Hyperf\HttpServer\Annotation\Controller;
 use Hyperf\HttpServer\Annotation\RequestMapping;
@@ -98,10 +99,29 @@ class RoleController extends AbstractController
 
     /**
      * 设置权限
+     * @RequestMapping(path="access", methods="post")
      */
     public function access()
     {
+        $request = $this->container->get(RoleRequest::class);
+        $request->scene('access')->validateResolved();
+        $param = $request->validated();
 
+        $role = Role::find($param['id']);
+        if (empty($role)) {
+            return $this->fail('角色不存在', 40400);
+        }
+        $data = [];
+        foreach ($param['menu_id'] as $val) {
+            $data[] = [
+                'role_id' => $param['id'],
+                'menu_id' => $val
+            ];
+        }
+        Db::table('access')->where('role_id', $param['id'])->delete();
+        Db::table('access')->insert($data);
+
+        return $this->success();
     }
 
 }
