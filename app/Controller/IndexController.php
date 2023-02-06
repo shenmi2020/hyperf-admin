@@ -31,17 +31,22 @@ class IndexController extends AbstractController
         $method = $this->request->getMethod();
         $id = \Hyperf\Utils\Coroutine::id();
         $result = [$id, $user, $method];
-       
-        $parallel = new Parallel();
-        $parallel->add(function () {
-            sleep(1);
-            return Coroutine::id();
+        co(function () {
+            sleep(2);
+            var_dump('sleep');
         });
-        $parallel->add(function () {
-            sleep(1);
-            return Coroutine::id();
-        });
-
+        // $parallel = new Parallel(2);
+        // $parallel->add(function () {
+        //     var_dump('parallel_1');
+        //     sleep(1);
+        //     return Coroutine::id();
+        // });
+        // $parallel->add(function () {
+        //     var_dump('parallel_2');
+        //     sleep(1);
+        //     return Coroutine::id();
+        // });
+        // var_dump('succ');
         // try{
         //     // $results 结果为 [1, 2]
         //     $result = $parallel->wait(); 
